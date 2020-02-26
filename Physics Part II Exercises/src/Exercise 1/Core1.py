@@ -1,27 +1,48 @@
 import numpy as np
-from scipy import integrate
 from numpy import pi
+import matplotlib.pyplot as plt
 
-def func (vector):  # integral of sin(x)
-    return (np.sin(vector))
+def integrate (N):
 
-mvect_func = np.vectorize(func)   # Vectorisation of sin
-n_values = [10]
+    nt= 25
+    #for n in n_values:
+        # m_input is the vector of size defined in n_values with each element the sum of 8 random numbers between 0 and pi/8
+    mInput = np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))+np.random.uniform(0,pi/8,(N,nt))
+        
+    mOutput = np.sum(np.sin(mInput)* 10**6 * (pi/8)**8,axis =0)/N
 
-for n in n_values:
-    # m_input is the vector of size defined in n_values with each element the sum of 8 random numbers between 0 and pi/8
-    mInput = np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))+np.random.uniform(0,pi/8,(n,25))
-    mOutput = mvect_func(mInput)* 10**6 * (pi/8)**8
+# mOutput is vector of size (n,25) containing 
+    integration_mean = np.mean(mOutput)
+    integration_sdv = np.std(mOutput)
+    
+    return (integration_mean,integration_sdv)
+#   
+powerrange = 23
+nMean = np.empty(powerrange)
+nSdv = np.empty(powerrange)
+x_range = np.empty(powerrange)
 
-# mMean is mean integrand multiplied by volume of space
-    mMean = np.sum(mOutput,axis=0)/n
-    mSdv_vector = np.std(mOutput,axis=0)
-    print(mSdv_vector)
-    print(mMean)
-#    mSdv_Mean = np.std(mOutput)/np.sqrt(n) #This is the sdv of the mean
-#    print("For n = ",n,", the mean is ",mMean," +/-",mSdv_Mean,end = '\n\n')
+for n in range(powerrange):
+    nMean[n],nSdv[n] = integrate(2**n)
+    x_range[n] = 2**n
+    
+
+m, c = np.polyfit(np.log(x_range), np.log(nSdv), 1)
+linear_fit = m*np.log(x_range) + c #Linear fit in log space
+plt.loglog(x_range,nSdv,label= "Error for Monte Carlo Integration")
+plt.loglog(x_range,np.exp(linear_fit),label= f"Linear fit with gradient {m:{3}.{3}}")
+plt.legend()
+plt.xlabel("N")
+plt.ylabel("Error")
+plt.title("Log-Log plot of average Error over 25 points against N")
+plt.savefig("Error-Nloglog.png")
 
 
+plt.figure()
+plt.loglog(x_range,nMean,label= "Mean for Monte Carlo Integration")
+plt.xlabel("N")
+plt.ylabel("Mean")
+plt.title("Log-Log plot of Mean over 25 points against N")
+plt.savefig("Mean-Nloglog.png",bbox_inches='tight')
 
-
-
+print(nMean[-1],"+/-",nSdv[-1])
