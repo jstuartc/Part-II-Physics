@@ -13,8 +13,8 @@ def Sfunction (x):
 u_values = np.arange(-999,1000)
 dt = 0.01
 
-C_values = np.empty(2000,dtype= tuple)
-S_values = np.empty(2000,dtype= tuple)
+C_values = np.empty(2000)
+S_values = np.empty(2000)
 for u in u_values:
     S_values[u] = integrate.quad(Sfunction,0,u*dt,limit=100)[0]
     C_values[u] = integrate.quad(Cfunction,0,u*dt,limit=100)[0]
