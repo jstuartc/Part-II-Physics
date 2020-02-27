@@ -22,13 +22,13 @@ for u in u_values:
 v_range = np.arange(-500,499)
 #Slit width 0.1m, λ=0.01m
 #Phase of the graph
-phase = np.empty(1000,dtype= tuple)
+phase = np.empty(1000)
 #Distance = 0.3m, therefore Δu = 2.58, therefore list umax - umin = 258
-intensity_30 = np.empty(1000,dtype= tuple)
+intensity_30 = np.empty(1000)
 #Distance = 0.5m, therefore Δu = 2, therefore list umax - umin = 200
-intensity_50 = np.empty(1000,dtype= tuple)
+intensity_50 = np.empty(1000)
 #Distance = 1m, therefore Δu = 1.414, therefore list umax - umin = 141.4 ~142
-intensity_100 = np.empty(1000,dtype= tuple)
+intensity_100 = np.empty(1000)
 
 for v in v_range:
     phase[v]=v/100
