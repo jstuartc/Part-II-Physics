@@ -25,7 +25,6 @@ plt.xlabel("x")
 plt.title("Cornu Spiral")
 plt.ylim(bottom=-1.0,top=1.0)
 plt.xlim(left=-1.0,right=1.0)
-plt.show()
+plt.title("Cornu Spiral")
+plt.savefig("Cornu-Spiral.png",bbox_inches='tight')
 
-
-   
