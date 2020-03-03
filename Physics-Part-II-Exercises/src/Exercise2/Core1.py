@@ -13,17 +13,32 @@ def f(t,y):
     dydt = [y[1],-np.sin(y[0])-q*y[1]+F*np.sin(2/3 * t)]
     return dydt
 
-def findRoot:
+def findPeriod (y,t,yStart,N): #Finds period of a cos wave (ie starts at y(0) = maximum)
+    #where 2**N is the number of oscillations we look over
+    #yStart = 1 for 1st calling
+    x=yStart
+    maxFound = False
+    while (maxFound==False):
+        if ((y[x]>y[x+1]) and (y[x-1]<y[x])):
+            maxFound = True
+        else:
+            x = x+1
+    if N == 0:
+        return x
+    if N == 1: 
+        return sol.t[x]/2
+    else:        
+        return (findPeriod(y,t,(x-1)*2,N-1)/2)
     
 
 theta0 = 0.01
 omega0 = 0
 
-tspan = [0,10000*2*pi]
+tspan = [0,1000*2*pi]
 yinit = [theta0,omega0]
 
 
-sol = integrate.solve_ivp(f, tspan, yinit)
+sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
 
 yTheory = theta0* np.cos(sol.t)
 '''
@@ -38,5 +53,7 @@ plt.show()
 #Finding the energy of the system E = KE + GPE where g = l = m = 1
 Energy = (1-np.cos(sol.y[0])) + 1/2 * (sol.y[1])**2
 plt.plot(sol.t,Energy)
-plt.show()
+#plt.show()
+print(findPeriod(sol.y[0],sol.t,1,7))
+
 
