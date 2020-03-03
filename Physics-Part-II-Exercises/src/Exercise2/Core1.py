@@ -13,7 +13,7 @@ def f(t,y):
     dydt = [y[1],-np.sin(y[0])-q*y[1]+F*np.sin(2/3 * t)]
     return dydt
 
-def findPeriod (y,t,yStart,N): #Finds period of a cos wave (ie starts at y(0) = maximum)
+def findPeriod (y,t,yStart): #Finds period of a cos wave (ie starts at y(0) = maximum)
     #where 2**N is the number of oscillations we look over
     #yStart = 1 for 1st calling
     x=yStart
@@ -23,12 +23,10 @@ def findPeriod (y,t,yStart,N): #Finds period of a cos wave (ie starts at y(0) = 
             maxFound = True
         else:
             x = x+1
-    if N == 0:
-        return x
-    if N == 1: 
-        return sol.t[x]/2
+    if  (x>y.size/2): 
+        return t[x]/2
     else:        
-        return (findPeriod(y,t,(x-1)*2,N-1)/2)
+        return (findPeriod(y,t,(x-2)*2)/2)
     
 def TheoryTest():
     tspanTest = [0,10*2*pi]
@@ -57,15 +55,25 @@ def EnergyGraph():
     plt.xlabel("Time")
     plt.show()
 
-EnergyGraph()
-#print(findPeriod(sol.y[0],sol.t,1,7))
+def StartingAnglevsPeriod():
+    length = 100
+    tspan = [0,100*2*pi]
+    angle = np.linspace(0.01,pi/2,num=length)
+    period = np.empty(length)
+    for n in range(length):
+        yinit=[angle[n],0]
+        sol = integrate.solve_ivp(f, tspan, yinit, max_step=0.2)
+        period[n] = findPeriod(sol.y[0],sol.t,1)
+        
+    plt.plot(angle,period/period[0])
+    plt.ylabel("Period T/T0")
+    plt.xlabel("Starting angle")
+    plt.title("Time Period against starting angle")
+    plt.show()
+                    
+StartingAnglevsPeriod()
 
 
-theta0 = 0.01
-omega0 = 0
-
-tspan = [0,1000*2*pi]
-yinitTest = [theta0,omega0]
 
 #sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
 
