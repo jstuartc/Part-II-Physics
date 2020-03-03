@@ -14,7 +14,6 @@ def f(t,y):
     return dydt
 
 def findPeriod (y,t,yStart): #Finds period of a cos wave (ie starts at y(0) = maximum)
-    #where 2**N is the number of oscillations we look over
     #yStart = 1 for 1st calling
     x=yStart
     maxFound = False
@@ -27,8 +26,9 @@ def findPeriod (y,t,yStart): #Finds period of a cos wave (ie starts at y(0) = ma
         return t[x]/2
     else:        
         return (findPeriod(y,t,(x-2)*2)/2)
-    
-def TheoryTest():
+
+
+def TheoryTest():#Funtion which shows that the integration method matches the small angle approximation    
     tspanTest = [0,10*2*pi]
     yinitTest = [0.01,0]   
     
@@ -43,7 +43,8 @@ def TheoryTest():
     plt.xlabel("Time")
     plt.show()
 
-def EnergyGraph():
+
+def EnergyGraph():	#Function which produces a graph showing how energy changes over time
     #Finding the energy of the system E = KE + GPE where g = l = m = 1
     tspanEnergy = [0,1000*2*pi]
     yinitEnergy = [0.01,0]
@@ -53,9 +54,10 @@ def EnergyGraph():
     plt.title("Energy Change over 10000 oscillations")
     plt.ylabel("Energy")
     plt.xlabel("Time")
+    plt.savefig("Energy-time.png",bbox_inches='tight')
     plt.show()
 
-def StartingAnglevsPeriod():
+def StartingAnglevsPeriod(): #Produces a graph showing how the period changes for changing starting angle
     length = 100
     tspan = [0,100*2*pi]
     angle = np.linspace(0.01,pi/2,num=length)
@@ -69,11 +71,15 @@ def StartingAnglevsPeriod():
     plt.ylabel("Period T/T0")
     plt.xlabel("Starting angle")
     plt.title("Time Period against starting angle")
+    plt.savefig("Period-against-Angle.png",bbox_inches='tight')
     plt.show()
-                    
-StartingAnglevsPeriod()
 
-
-
-#sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
+def FindPeriodforpi2 ():
+    tspan = [0,100*2*pi]
+    yinit=[pi/2,0]
+    sol = integrate.solve_ivp(f, tspan, yinit, max_step=0.1)
+    Period = findPeriod(sol.y[0],sol.t,1)
+    print("The period for a starting angle of π/2 is",Period)
+    
+FindPeriodforpi2()
 
