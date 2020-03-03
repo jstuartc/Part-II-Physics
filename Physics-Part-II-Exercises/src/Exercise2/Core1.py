@@ -41,6 +41,7 @@ def TheoryTest():#Funtion which shows that the integration method matches the sm
     plt.title("Angle of Oscillations over 10 oscillations")
     plt.ylabel("Angle")
     plt.xlabel("Time")
+    plt.savefig("Angle-Time-RK-Small-Angle.png",bbox_inches='tight')
     plt.show()
 
 
@@ -60,7 +61,7 @@ def EnergyGraph():	#Function which produces a graph showing how energy changes o
 def StartingAnglevsPeriod(): #Produces a graph showing how the period changes for changing starting angle
     length = 100
     tspan = [0,100*2*pi]
-    angle = np.linspace(0.01,pi/2,num=length)
+    angle = np.linspace(0.01,pi,num=length)
     period = np.empty(length)
     for n in range(length):
         yinit=[angle[n],0]
@@ -80,6 +81,8 @@ def FindPeriodforpi2 ():
     sol = integrate.solve_ivp(f, tspan, yinit, max_step=0.1)
     Period = findPeriod(sol.y[0],sol.t,1)
     print("The period for a starting angle of π/2 is",Period)
-    
+TheoryTest()
+EnergyGraph()
+StartingAnglevsPeriod()    
 FindPeriodforpi2()
 
