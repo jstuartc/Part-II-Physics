@@ -30,15 +30,6 @@ def findPeriod (y,t,yStart,N): #Finds period of a cos wave (ie starts at y(0) = 
     else:        
         return (findPeriod(y,t,(x-1)*2,N-1)/2)
     
-
-theta0 = 0.01
-omega0 = 0
-
-tspan = [0,1000*2*pi]
-yinitTest = [theta0,omega0]
-
-#sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
-
 def TheoryTest():
     tspanTest = [0,10*2*pi]
     yinitTest = [0.01,0]   
@@ -54,11 +45,27 @@ def TheoryTest():
     plt.xlabel("Time")
     plt.show()
 
-#Finding the energy of the system E = KE + GPE where g = l = m = 1
-#Energy = (1-np.cos(sol.y[0])) + 1/2 * (sol.y[1])**2
-#plt.plot(sol.t,Energy)
-#plt.show()
-#print(findPeriod(sol.y[0],sol.t,1,7))
-TheoryTest()
+def EnergyGraph():
+    #Finding the energy of the system E = KE + GPE where g = l = m = 1
+    tspanEnergy = [0,1000*2*pi]
+    yinitEnergy = [0.01,0]
+    solEnergy = integrate.solve_ivp(f, tspanEnergy, yinitEnergy)
+    Energy = (1-np.cos(solEnergy.y[0])) + 1/2 * (solEnergy.y[1])**2
+    plt.plot(solEnergy.t,Energy)
+    plt.title("Energy Change over 10000 oscillations")
+    plt.ylabel("Energy")
+    plt.xlabel("Time")
+    plt.show()
 
+EnergyGraph()
+#print(findPeriod(sol.y[0],sol.t,1,7))
+
+
+theta0 = 0.01
+omega0 = 0
+
+tspan = [0,1000*2*pi]
+yinitTest = [theta0,omega0]
+
+#sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
 
