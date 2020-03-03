@@ -35,25 +35,30 @@ theta0 = 0.01
 omega0 = 0
 
 tspan = [0,1000*2*pi]
-yinit = [theta0,omega0]
+yinitTest = [theta0,omega0]
 
+#sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
 
-sol = integrate.solve_ivp(f, tspan, yinit,max_step=0.1)
+def TheoryTest():
+    tspanTest = [0,10*2*pi]
+    yinitTest = [0.01,0]   
+    
+    solTest = integrate.solve_ivp(f, tspanTest, yinitTest,max_step=0.1)
+    yTheory = 0.01* np.cos(solTest.t)
 
-yTheory = theta0* np.cos(sol.t)
-'''
-plt.plot(sol.t,sol.y[0], label = 'RK method')
-plt.plot(sol.t,yTheory,label = 'Small angle approximation')
-plt.legend()
-plt.title("Angle of Oscillations over 10 oscillations")
-plt.ylabel("Angle")
-plt.xlabel("Time")
-plt.show()
-'''
+    plt.plot(solTest.t,solTest.y[0], label = 'RK method')
+    plt.plot(solTest.t,yTheory,label = 'Small angle approximation')
+    plt.legend()
+    plt.title("Angle of Oscillations over 10 oscillations")
+    plt.ylabel("Angle")
+    plt.xlabel("Time")
+    plt.show()
+
 #Finding the energy of the system E = KE + GPE where g = l = m = 1
-Energy = (1-np.cos(sol.y[0])) + 1/2 * (sol.y[1])**2
-plt.plot(sol.t,Energy)
+#Energy = (1-np.cos(sol.y[0])) + 1/2 * (sol.y[1])**2
+#plt.plot(sol.t,Energy)
 #plt.show()
-print(findPeriod(sol.y[0],sol.t,1,7))
+#print(findPeriod(sol.y[0],sol.t,1,7))
+TheoryTest()
 
 
