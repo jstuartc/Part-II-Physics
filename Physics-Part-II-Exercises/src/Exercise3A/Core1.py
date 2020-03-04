@@ -2,9 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
 
-def computedB ():
+def computedB (dlInfo,B,Current,position):
     mu0 = 4*pi*10**(-7)
+    r = np.sqrt((dlInfo[0]-position[0])**2 +(dlInfo[1]-position[1])**2 + (dlInfo[2]-position[2])**2)
+    dlCrossr = np.cross(np.resize(dlInfo,3),position)
     #dB = mu0/4π * Idl^r/r^3
+    dB = (mu0/4*pi) * (Current/r**3) * dlCrossr
     return dB
 
 def FindB (Position,Coil):
@@ -25,7 +28,9 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
     
     return coilInfo
 
-Coil000 = CreateCoilX([0,2,2], 1)
+#Coil000 = CreateCoilX([0,2,2], 1)
 
-plt.plot(Coil000[:,1],Coil000[:,2])
-plt.show()
+#plt.plot(Coil000[:,1],Coil000[:,2])
+#plt.show()
+
+
