@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
@@ -20,7 +21,7 @@ def FindB (position,Coil):
     return B
 
 def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius producing an array of position and direction of segments 
-    dlNumber = 10
+    dlNumber = 50
     n = np.linspace(0,2*pi,num = dlNumber)
     dlLength = 2*pi*Radius/dlNumber
     coilInfo = np.empty((dlNumber,6)) # First 3 values give position r, last 3 values give dl
@@ -32,21 +33,23 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
     coilInfo[:,5] = dlLength*(np.cos(n))
     return coilInfo
 
-def TestingGraph ():
+def BField2CoilsGraph ():
 
-    x_range = np.linspace(0,5,num=20)
-    B = np.empty((x_range.size,3))
-    BTheory = np.empty(x_range.size)
-    Coil000 = CreateCoilX([0,0,0],1)
+    x_range = np.linspace(-1,1,num=30)
+    y_range = np.linspace(-1,1,num=30)
+    B = np.empty((x_range.size,y_range.size,3))
+    X = np.empty(x_range.size)
+    Y = np.empty(y_range.size)
+    Coil500 = CreateCoilX([0,0,0],1)
+    Coil_500 = CreateCoilX([0,0,0],1)
     for n in range(x_range.size):
-        B[n] = FindB([x_range[n],0,0],Coil000)
-        #Uses theory to calculate B on x axis for coil of Radius 1 and current 1/μ
-        BTheory[n] = 1/(2*(1+(x_range[n])**2)**(3/2))
-    plt.plot(x_range,B[:,0],label="Computation")
-    plt.plot(x_range,BTheory,label="Theory")
-    plt.plot(x_range,B[:,0]-BTheory,label="Difference")
-    plt.legend()
+        X[n] = x_range[n]
+        for m in range(y_range.size):
+            B[n,m] = FindB([0,y_range[m],x_range[n]],Coil500) + FindB([0,y_range[m],x_range[n]],Coil_500)
+            Y[m] = y_range[m]
+    modB = np.sqrt(B[:,:,0]**2 + B[:,:,1]**2 + B[:,:,2]**2)
+    plt.contourf(X,Y,modB)
     plt.show()
 
-TestingGraph()
+BField2CoilsGraph()
 
