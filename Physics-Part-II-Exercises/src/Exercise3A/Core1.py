@@ -2,20 +2,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
 
-def computedB (dlInfo,B,Current,position):
-    mu0 = 4*pi*10**(-7)
-    r = np.sqrt((dlInfo[0]-position[0])**2 +(dlInfo[1]-position[1])**2 + (dlInfo[2]-position[2])**2)
-    dlCrossr = np.cross(np.resize(dlInfo,3),position)
+mu0 = 4*pi*10**(-7)
+Current= 1/mu0
+
+def computedB (dlInfo,B,position):
+    r = position - np.split(dlInfo,2)[0]
+    modr = np.sqrt(np.sum(r**2))
+    dlCrossr = np.cross(np.split(dlInfo,2)[1],r)
     #dB = mu0/4π * Idl^r/r^3
-    dB = (mu0/4*pi) * (Current/r**3) * dlCrossr
+    dB = (mu0/(4*pi)) * (Current/modr**3) * dlCrossr
     return dB
 
-def FindB (Position,Coil):
-    
-    return B(x,y,z)
+def FindB (position,Coil):
+    B= [0,0,0]
+    for dlInfo in Coil:
+        B = B + computedB(dlInfo,1,position)
+    return B
 
 def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius producing an array of position and direction of segments 
-    dlNumber = 50
+    dlNumber = 10
     n = np.linspace(0,2*pi,num = dlNumber)
     dlLength = 2*pi*Radius/dlNumber
     coilInfo = np.empty((dlNumber,6)) # First 3 values give position r, last 3 values give dl
@@ -25,12 +30,23 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
     coilInfo[:,3] = 0
     coilInfo[:,4] = dlLength*(-np.sin(n))
     coilInfo[:,5] = dlLength*(np.cos(n))
-    
     return coilInfo
 
-#Coil000 = CreateCoilX([0,2,2], 1)
+def TestingGraph ():
 
-#plt.plot(Coil000[:,1],Coil000[:,2])
-#plt.show()
+    x_range = np.linspace(0,5,num=20)
+    B = np.empty((x_range.size,3))
+    BTheory = np.empty(x_range.size)
+    Coil000 = CreateCoilX([0,0,0],1)
+    for n in range(x_range.size):
+        B[n] = FindB([x_range[n],0,0],Coil000)
+        #Uses theory to calculate B on x axis for coil of Radius 1 and current 1/μ
+        BTheory[n] = 1/(2*(1+(x_range[n])**2)**(3/2))
+    plt.plot(x_range,B[:,0],label="Computation")
+    #plt.plot(x_range,BTheory,label="Theory")
+    plt.plot(x_range,B[:,0]-BTheory,label="Difference")
+    plt.legend()
+    plt.show()
 
+TestingGraph()
 
