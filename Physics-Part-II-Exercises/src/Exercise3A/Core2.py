@@ -21,8 +21,8 @@ def FindB (position,Coil):
     return B
 
 def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius producing an array of position and direction of segments 
-    dlNumber = 50
-    n = np.linspace(0,2*pi,num = dlNumber)
+    dlNumber = 31
+    n = np.linspace(0,2*pi,num = dlNumber)+pi/2
     dlLength = 2*pi*Radius/dlNumber
     coilInfo = np.empty((dlNumber,6)) # First 3 values give position r, last 3 values give dl
     coilInfo[:,0] = r[0] # set x value
@@ -35,21 +35,25 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
 
 def BField2CoilsGraph ():
 
-    x_range = np.linspace(-1,1,num=30)
-    y_range = np.linspace(-1,1,num=30)
+    x_range = np.linspace(-3,3,num=31)
+    y_range = np.linspace(-3,3,num=31)
     B = np.empty((x_range.size,y_range.size,3))
     X = np.empty(x_range.size)
     Y = np.empty(y_range.size)
-    Coil500 = CreateCoilX([0,0,0],1)
-    Coil_500 = CreateCoilX([0,0,0],1)
+    Coil500 = CreateCoilX([0.5,0,0],1)
+    Coil_500 = CreateCoilX([-0.5,0,0],1)
     for n in range(x_range.size):
         X[n] = x_range[n]
         for m in range(y_range.size):
-            B[n,m] = FindB([0,y_range[m],x_range[n]],Coil500) + FindB([0,y_range[m],x_range[n]],Coil_500)
+            B[n,m] = FindB([x_range[n],y_range[m],0],Coil500)  + FindB([x_range[n],y_range[m],0],Coil_500)
             Y[m] = y_range[m]
     modB = np.sqrt(B[:,:,0]**2 + B[:,:,1]**2 + B[:,:,2]**2)
     plt.contourf(X,Y,modB)
     plt.show()
 
+
+
 BField2CoilsGraph()
+
+
 
