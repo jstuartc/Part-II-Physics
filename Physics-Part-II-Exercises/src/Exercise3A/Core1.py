@@ -5,7 +5,7 @@ from numpy import pi
 mu0 = 4*pi*10**(-7)
 Current= 1/mu0
 
-def computedB (dlInfo,B,position):
+def computedB (dlInfo,B,position): # Computes dB for the individual dl
     r = position - np.split(dlInfo,2)[0]
     modr = np.sqrt(np.sum(r**2))
     dlCrossr = np.cross(np.split(dlInfo,2)[1],r)
@@ -13,7 +13,7 @@ def computedB (dlInfo,B,position):
     dB = (mu0/(4*pi)) * (Current/modr**3) * dlCrossr
     return dB
 
-def FindB (position,Coil):
+def FindB (position,Coil):  # Finds the B field at a certain coordinate
     B= [0,0,0]
     for dlInfo in Coil:
         B = B + computedB(dlInfo,1,position)
@@ -32,7 +32,7 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
     coilInfo[:,5] = dlLength*(np.cos(n))
     return coilInfo
 
-def TestingGraph ():
+def TestingGraph (): #Plots a graph testing the simulation against theory
 
     x_range = np.linspace(0,5,num=20)
     B = np.empty((x_range.size,3))
