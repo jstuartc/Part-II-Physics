@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
 
-def funInput(q,F):
+def funInput(q,F):  #Returns a function which has the q and F as you desire
     def fun(t,y):
         dydt = [y[1],-np.sin(y[0])-q*y[1]+F*np.sin(2/3 * t)]
         return dydt
     return fun
 
-def DampingIncreaseGraph ():
+def DampingIncreaseGraph (): # Produces a graph of Angle against time for different values of q
     tspan = [0,10*2*pi]
     yinit=[0.1,0]
     for q in [0,1,5,10]:
@@ -23,7 +23,7 @@ def DampingIncreaseGraph ():
     plt.savefig("Angle-time-Damped.png",bbox_inches='tight')
     plt.show()
     
-def DrivingForceIncreaseGraph ():
+def DrivingForceIncreaseGraph ():# Produces a graph of Angle against time and of velocity-time for different values of F
     tspan = [0,10*2*pi]
     yinit=[0,0]
     q = 0.5
