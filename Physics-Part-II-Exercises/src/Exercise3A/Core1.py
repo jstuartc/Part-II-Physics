@@ -34,7 +34,7 @@ def CreateCoilX(r,Radius): #Creates a coil along x axis at r with a radius produ
 
 def TestingGraph (): #Plots a graph testing the simulation against theory
 
-    x_range = np.linspace(0,5,num=20)
+    x_range = np.linspace(0,5,num=50)
     B = np.empty((x_range.size,3))
     BTheory = np.empty(x_range.size)
     Coil000 = CreateCoilX([0,0,0],1)
@@ -45,8 +45,11 @@ def TestingGraph (): #Plots a graph testing the simulation against theory
     plt.plot(x_range,B[:,0],label="Computation")
     plt.plot(x_range,BTheory,label="Theory")
     plt.plot(x_range,B[:,0]-BTheory,label="Difference")
+    plt.title("Plot B field against distance from coil along x axis (x)")
+    plt.ylabel("B")
+    plt.xlabel("x")
     plt.legend()
-    plt.show()
+    plt.savefig("B field against x for Theory and Model.png",bbox_inches='tight')
 
 TestingGraph()
 
