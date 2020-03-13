@@ -4,6 +4,8 @@ Core 1
 -Plotted how the Energy of the system changed with the RK method over 10000 oscillations. This was found to be about a 1% change
 - Plotted Period against starting angle. To find the period, a method was created which found the 1st maximum of the cosine wave (ie Period of one oscillation) then found the 2nd then 4th, 8th terminating with the maximum of highest order 2 (Speed of O(logn), to produce an accurate value of T
 
+The period for a starting angle of π/2 is 3.7078978857828337
+
 
 Core 2
 

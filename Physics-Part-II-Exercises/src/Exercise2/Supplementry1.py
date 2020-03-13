@@ -3,13 +3,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
 
-def funInput(q,F):
+def funInput(q,F):  #Returns a function which has the q and F as you desire
     def fun(t,y):
         dydt = [y[1],-np.sin(y[0])-q*y[1]+F*np.sin(2/3 * t)]
         return dydt
     return fun
 
-def Comparison():
+def Comparison(): #Function showing the difference of the starting conditions
+    
+    #Plots first the two ampplitudes over time and then plots the Δθ over time
+    
     tspan = [0,100*2*pi]
     q = 0.5
     F = 1.2

@@ -25,7 +25,7 @@ def findPeriod (y,t,yStart): #Finds period of a cos wave (ie starts at y(0) = ma
     if  (x>y.size/2): 
         return t[x]/2
     else:        
-        return (findPeriod(y,t,(x-2)*2)/2)
+        return (findPeriod(y,t,(x-2)*2)/2)  #Looks for another maximum twice as far down the line for better accuracy
 
 
 def TheoryTest():#Funtion which shows that the integration method matches the small angle approximation    
@@ -42,7 +42,7 @@ def TheoryTest():#Funtion which shows that the integration method matches the sm
     plt.ylabel("Angle")
     plt.xlabel("Time")
     plt.savefig("Angle-Time-RK-Small-Angle.png",bbox_inches='tight')
-    plt.show()
+
 
 
 def EnergyGraph():	#Function which produces a graph showing how energy changes over time
@@ -56,7 +56,6 @@ def EnergyGraph():	#Function which produces a graph showing how energy changes o
     plt.ylabel("Energy")
     plt.xlabel("Time")
     plt.savefig("Energy-time.png",bbox_inches='tight')
-    plt.show()
 
 def StartingAnglevsPeriod(): #Produces a graph showing how the period changes for changing starting angle
     length = 100
@@ -73,7 +72,6 @@ def StartingAnglevsPeriod(): #Produces a graph showing how the period changes fo
     plt.xlabel("Starting angle")
     plt.title("Time Period against starting angle")
     plt.savefig("Period-against-Angle.png",bbox_inches='tight')
-    plt.show()
 
 def FindPeriodforpi2 ():
     tspan = [0,100*2*pi]

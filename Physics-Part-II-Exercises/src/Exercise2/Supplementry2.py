@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import pi
 
-def funInput(q,F):
+def funInput(q,F):  #Returns a function which has the q and F as you desire
     def fun(t,y):
         dydt = [y[1],-np.sin(y[0])-q*y[1]+F*np.sin(2/3 * t)]
         return dydt
     return fun
 
-def PlotAngleAgainstVelocity (theta0,omega0,q,F,plotNum):
+def PlotAngleAgainstVelocity (theta0,omega0,q,F,plotNum):   #Simply plots velocity against time for the initial satring conditions
     tspan = [0,100*2*pi]
     f = funInput(q, F)
     yinit = [theta0,omega0]
@@ -22,7 +22,7 @@ def PlotAngleAgainstVelocity (theta0,omega0,q,F,plotNum):
     plotNum.tick_params(axis='both', which='major', labelsize=6)
     plotNum.tick_params(axis='both', which='minor', labelsize=5)
 
-def PlotMultipleConditions():
+def PlotMultipleConditions():   # Calls creates a plot of 9 subplots which then PlotAngleAgainstVelocity fills
     fig, axs = plt.subplots(3,3)
     
     PlotAngleAgainstVelocity(2, 0, 0, 0,axs[0,0])    # Top row has q = F = 0 and has theata and omega either 2 or 0
