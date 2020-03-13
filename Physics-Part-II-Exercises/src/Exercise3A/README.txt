@@ -12,4 +12,14 @@ Core 2
 - The difference with this was just adding together the B fields of 2 coils.
 - The number of line elements made a difference here with larger the number produced clearer images but computational time is O(logN)
 The maximum percentage difference in the area was 0.0099% showing the uniformity of B across this region
-- A plot showing the variation across this region was produced
+- A plot showing the B field across this region was produced
+
+Supplementary
+- To make a system with N coils, a method was created which returned a list of Coils.
+- A class was implemented in order to contain the information of the coils so that the system was a list of length N individual coils instead of an array of 3 dimensions with one dimension being N. Did this in order to keep the code vectorised instead of bringing in for loops
+- In all systems the diameter = 10* Radius
+- Plotted a graph showing what happens when your sweep area is larger than the coil. All the B field contours are at the edge of the wires itself. Some of them don't appear since the sweeping of the points don't get close enough
+-Plotted a graph showing what happens to the B field at the open ends of the coil. It shows the uniformity within compared to a metre outside
+-Plotted the same setup but within the coil completely. The graph is not symmetrical and this is due to the coils being comprised of a limited number of elements 30 in this case.
+-Plotted the same conditions as above except with N= 10. From the plot you can clearly see that the field within the coil is not as uniform compared to N = 20. The graph is also not symmetric
+- Repeated but with 100 line elements in the coil. Much longer computation. The graph is pretty much symmetric along x and y axis. This indicates that better modelling of the coils produces better results

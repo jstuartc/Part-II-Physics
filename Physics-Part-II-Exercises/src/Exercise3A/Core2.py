@@ -51,14 +51,15 @@ def BField2CoilsGraph (): #Plots a plot which shows how B changes in a small cyl
     modBOrigin = np.sqrt(np.sum((FindB([0,0,0],Coil500)+FindB([0,0,0],Coil_500))**2))
     #Deviation of B field
     modBDeviation = modB/(modBOrigin)
-    plt.contourf(X,Y,np.transpose(modBDeviation-1))
-    plt.title("Plot of the fractional deviation of modB against X and Y inside 2 coils at +/- 0.5m")
+    plt.contourf(X,Y,np.transpose(modB))
+    plt.title("Plot of modB against X and Y inside 2 coils at +/- 0.5m")
     plt.ylabel("Y/m")
     plt.xlabel("X/m")
-    plt.colorbar()
+    cbar = plt.colorbar()
+    cbar.set_label("B")
     
     print("The maximum percentage difference in this Volume is",np.amax(abs((modBDeviation-1))))
-    plt.savefig("Fractional change in ModB field across an area of Y and X in the z = 0 plane.png",bbox_inches='tight')
+    plt.savefig("modB across an area of Y and X in the z = 0 plane.png",bbox_inches='tight')
     
     
 

@@ -5,10 +5,10 @@ from numpy import pi
 mu0 = 4*pi*10**(-7)
 Current= 1/mu0
 
-class SingleCoil:
-    dlNumber = 11
+class SingleCoil:   #Class describing a single coil
+    dlNumber = 100
     
-    def __init__(self,position,radius):
+    def __init__(self,position,radius): #init of object. Creates the info of the coil ie the positions of the individual line elements and the the direction they point
         self.__position = position
         self.__radius = radius
         n = np.linspace(0,2*pi,num = self.dlNumber)+pi
@@ -21,7 +21,7 @@ class SingleCoil:
         self.__coilInfo[:,4] = dlLength*(-np.sin(n))
         self.__coilInfo[:,5] = dlLength*(np.cos(n))
     
-    def getCoilInfo(self):
+    def getCoilInfo(self):  #Returns the coil information of the line elements in a 2d array
         return self.__coilInfo
     
         
@@ -46,13 +46,13 @@ def CreateCoilSeriesX (Radius,Number): #Creates a series of N coils with Length 
         CoilSeries[n] = SingleCoil([coilXPosition[n],0,0],Radius)
     return CoilSeries
 
-def BFieldGraph (N,Radius,xlength,ylength):
+def BFieldGraph (N,Radius,xlength,ylength): # Creates a plot of modB across a x and y range for N coils of radius R
     x_range = np.linspace(-xlength,xlength,num=40)
     y_range = np.linspace(-ylength,ylength,num=20)
     B = np.zeros((x_range.size,y_range.size,3))
     X = np.empty(x_range.size)
     Y = np.empty(y_range.size)
-    CoilSeries = CreateCoilSeriesX(Radius, N)
+    CoilSeries = CreateCoilSeriesX(Radius, N)   #Creates list of length N of Coils
     for n in range(x_range.size):
         X[n] = x_range[n]
         for m in range(y_range.size):
@@ -62,7 +62,12 @@ def BFieldGraph (N,Radius,xlength,ylength):
     modB = np.sqrt(B[:,:,0]**2 + B[:,:,1]**2 + B[:,:,2]**2)
     
     plt.contourf(X,Y,np.transpose(modB))
-    plt.show()
+    plt.title(f"Plot of modB against X and Y inside {N} coils of radius {Radius} with length {10*Radius}")
+    plt.ylabel("Y/m")
+    plt.xlabel("X/m")
+    cbar = plt.colorbar()
+    cbar.set_label("B")
+    plt.savefig(f"modB - detail radius {Radius}, N = {N}.png",bbox_inches='tight')
 
 
-BFieldGraph(20,1.1,5,0.8)
+BFieldGraph(10,1,4,0.2)
