@@ -6,7 +6,7 @@ mu0 = 4*pi*10**(-7)
 Current= 1/mu0
 
 class SingleCoil:   #Class describing a single coil
-    dlNumber = 100
+    dlNumber = 30
     
     def __init__(self,position,radius): #init of object. Creates the info of the coil ie the positions of the individual line elements and the the direction they point
         self.__position = position
