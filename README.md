@@ -1,4 +1,4 @@
-#Part II Physics Computing
+# Part II Physics Computing
 
 This repo contains the work done for my Part II Physics Computing work, done in python.
 
@@ -6,7 +6,7 @@ The work is from two stages
   Physics Exercises
   Physics Computing Project (not yet done)
   
-##Physics Exercises
+##P hysics Exercises
 
 In the Physics Exercises folder there are 3 Exercise.
 
